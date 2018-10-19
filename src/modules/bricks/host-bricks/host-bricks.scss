@@ -1,0 +1,27 @@
+.tendrl-host-bricks-view-container {
+    margin-bottom: 10px;
+    .table-class {
+        margin-top: 10px;
+        margin-bottom: 10px;
+
+        .container-fluid{
+            padding: 0;
+        }
+    }
+
+    .toolbar-pf .form-group:last-child {
+        padding-left: 0;
+    }
+
+    .toolbar-pf-results {
+        margin-left: 0;
+
+        & > span {
+            display: none;
+        }
+    }
+
+    .ffont {
+        font-size: 13px;
+    }
+}

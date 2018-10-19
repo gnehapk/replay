@@ -1,0 +1,88 @@
+<div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
+<div ng-if="clusterData !== null" class="tendrl-volume-list-view-container">
+    <div class="container-fluid">
+        <!-- heading section-->
+        <h1 class="bold-text">Volumes</h1>
+        <!-- Actions section -->
+        <div class="row toolbar-pf">
+            <div class="col-sm-12">
+                <form class="toolbar-pf-actions">
+                    <div class="form-group toolbar-pf-filter" ng-class="{'disable-pointer': volumeCntrl.volumeList.length === 0}">
+                        <pf-filter id="volumeFilter" config="volumeCntrl.filterConfig"></pf-filter>
+                    </div>
+                    <div class="form-group sort-component" ng-class="{'disable-pointer': volumeCntrl.volumeList.length === 0}">
+                        <pf-sort id="volumeSort" config="volumeCntrl.sortConfig"></pf-sort>
+                    </div>
+                </form>
+                <div class="row toolbar-pf-results">
+                    <div class="col-sm-12">
+                        <h5 ng-if="volumeCntrl.volumeList.length !== 0">{{volumeCntrl.filteredVolumeList.length}} 
+                            <ng-pluralize count="volumeCntrl.filteredVolumeList.length" when="{'one': 'Volume', 'other': 'Volumes'}"></ng-pluralize>
+                       </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <center ng-if="!volumeCntrl.isDataLoading && volumeCntrl.volumeList.length === 0">
+            <div class="blank-slate-pf">
+                <div class="blank-slate-pf-icon">
+                    <i class="pficon pficon-container-node"></i>
+                </div>
+                <h1>No Volumes Detected</h1>
+            </div>
+        </center>
+        <center ng-if="!volumeCntrl.isDataLoading && volumeCntrl.filteredVolumeList.length === 0 && volumeCntrl.volumeList.length !== 0" class="empty-filter-list">
+            <div class="blank-slate-pf">
+                <div class="message">No results match the filter criteria</div>
+                <div class="suggestion">
+                    <div class="title">Suggestions</div>
+                    <div>Please try selecting other filter criteria.</div>
+                </div>
+            </div>
+        </center>
+        <div ng-show="volumeCntrl.isDataLoading" class="spinner spinner-lg"></div>
+        <div class="flex-table list-group list-view-pf list-view-pf-view" ng-show="!volumeCntrl.isDataLoading">
+            <div class="ft-row list-group-item " ng-repeat="volume in volumeCntrl.filteredVolumeList">
+                <div class="ft-column ft-icon">
+                    <i ng-class="volumeCntrl.getVolumeIcon(volume.state)" uib-tooltip-html="volumeCntrl.getVolState(volume.state)" tooltip-placement="auto bottom-left"></i>
+                </div>
+                <div class="ft-column bold-text" list-view-pf-additional-info-item-stacked>
+                    <div class="bold-text long-volume-name" uib-tooltip-html="'{{volume.name}}'" tooltip-placement="auto bottom-left" ng-click="volumeCntrl.goToVolumeDetail(volume)"><a class="volume-name">{{volume.name}}</a></div>
+                    <div class="pull-left vol-type">{{volume.type | capitalize}}</div>
+                </div>
+                <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                    <div class="bold-text">Bricks</div>
+                    <div class="pull-left">{{volume.brickCount}}</div>
+                </div>
+                <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                    <div class="bold-text">Running</div>
+                    <div class="pull-left">{{volume.status === 'Stopped'? "No": "Yes"}}</div>
+                </div>
+                <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                    <div class="bold-text">Rebalance</div>
+                    <div class="pull-left counts">{{volumeCntrl.getRebalStatus(volume)}}</div>
+                </div>
+                <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                    <div class="bold-text">Volume Profiling</div>
+                    <div class="pull-left counts" ng-show="volume.profileStatus !== 'Pending'">{{volume.profileStatus}}</div>
+                    <div class="pull-left counts" ng-show="volume.profileStatus === 'Pending'"><a href="" ng-click="volumeCntrl.goToTaskDetail(volume)">{{volume.profileStatus}}</a></div>
+                </div>
+                <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                    <div class="bold-text">Alerts</div>
+                    <div class="pull-left counts">{{volume.alertCount}}</div>
+                </div>
+                <div class="ft-column ft-actions">
+                    <button ng-show="volumeCntrl.showDisableBtn(volume)" class="btn btn-default dashboard-btn" ng-click="volumeCntrl.toggleProfiling(volume, 'disable', $event)" tooltip-enable="volumeCntrl.flag" ng-mouseover="volumeCntrl.addTooltip($event)" uib-tooltip="Disable Profiling" ng-disabled="volume.disableAction || volume.currentTask.status === 'in_progress'">Disable Profiling</button>
+                    <button ng-show="volumeCntrl.showEnableBtn(volume)" class="btn btn-default dashboard-btn" ng-click="volumeCntrl.toggleProfiling(volume, 'enable', $event)" tooltip-enable="volumeCntrl.flag" ng-mouseover="volumeCntrl.addTooltip($event)" uib-tooltip="Enable Profiling" ng-disabled="volume.disableAction || volume.currentTask.status === 'in_progress'">Enable Profiling</button>
+                    <button class="btn btn-default dashboard-btn" ng-click="volumeCntrl.redirectToGrafana(volume)" tooltip-enable="volumeCntrl.flag" ng-mouseover="volumeCntrl.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-show="volumeCntrl.filteredVolumeList.length !== 0">
+        <div class="col-md-12 horizontal-line"></div>
+    </div>
+</div>
+</div>

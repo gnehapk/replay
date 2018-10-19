@@ -1,0 +1,98 @@
+{
+    "nodes": [{
+        "fqdn": "dhcp43-19.lab.eng.blr.redhat.com",
+        "updated_at": "2018-03-12 05:50:13.234328+00:00",
+        "first_sync_done": "yes",
+        "node_id": "fc12302b-0025-467e-bf43-0f64d8217d21",
+        "status": "UP",
+        "hash": "bd8b149af82b9f02bd38659cb0fbac60",
+        "tags": ["tendrl/integration/gluster", "detected_cluster/1ee0d16e7d9018ed72280fa520ec88e663642857f8b6c0720c53d4a01a59e841", "tendrl/integration/7b05c774-f1e9-4ded-9e0b-7ac989a4f60c", "provisioner/7b05c774-f1e9-4ded-9e0b-7ac989a4f60c", "gluster/server", "tendrl/node_fc12302b-0025-467e-bf43-0f64d8217d21", "tendrl/node"],
+        "sync_status": "done",
+        "ipv4_addr": "10.70.43.19",
+        "is_managed": "yes",
+        "last_sync": "2018-03-12 05:50:12.857582+00:00",
+        "cluster": {
+            "integration_id": "7b05c774-f1e9-4ded-9e0b-7ac989a4f60c",
+            "hash": "f04246462727fb627a27946da7591607",
+            "sds_version": "4.1dev",
+            "updated_at": "2018-03-05 11:28:05.415297+00:00",
+            "sds_name": "gluster",
+            "cluster_name": "gluster-1ee0d16e7d9018ed72280fa520ec88e663642857f8b6c0720c53d4a01a59e841",
+            "cluster_id": "1ee0d16e7d9018ed72280fa520ec88e663642857f8b6c0720c53d4a01a59e841"
+        },
+        "bricks_count": 2
+    }, {
+        "ipv4_addr": "10.70.43.27",
+        "is_managed": "yes",
+        "last_sync": "2018-03-12 05:49:33.611947+00:00",
+        "status": "UP",
+        "hash": "5c3680ccb9cf2859d9ebd5bf1f1c8fa3",
+        "sync_status": "in_progress",
+        "fqdn": "dhcp43-27.lab.eng.blr.redhat.com",
+        "updated_at": "2018-03-12 05:50:34.322761+00:00",
+        "tags": ["tendrl/integration/gluster", "tendrl/node_f120a3f2-052a-4028-8fb2-7dddb310fec3", "detected_cluster/1ee0d16e7d9018ed72280fa520ec88e663642857f8b6c0720c53d4a01a59e841", "tendrl/integration/7b05c774-f1e9-4ded-9e0b-7ac989a4f60c", "gluster/server", "tendrl/node"],
+        "first_sync_done": "yes",
+        "node_id": "f120a3f2-052a-4028-8fb2-7dddb310fec3",
+        "alert_counters": {
+            "node_id": "f120a3f2-052a-4028-8fb2-7dddb310fec3",
+            "hash": "5c3bc5cbfb26aefb4f3faa920265b134",
+            "warning_count": "1",
+            "updated_at": "2018-03-05 12:31:01.835608+00:00",
+            "integration_id": "7b05c774-f1e9-4ded-9e0b-7ac989a4f60c"
+        },
+        "cluster": {
+            "integration_id": "7b05c774-f1e9-4ded-9e0b-7ac989a4f60c",
+            "hash": "f04246462727fb627a27946da7591607",
+            "sds_version": "4.1dev",
+            "updated_at": "2018-03-05 11:28:05.415297+00:00",
+            "sds_name": "gluster",
+            "cluster_name": "gluster-1ee0d16e7d9018ed72280fa520ec88e663642857f8b6c0720c53d4a01a59e841",
+            "cluster_id": "1ee0d16e7d9018ed72280fa520ec88e663642857f8b6c0720c53d4a01a59e841"
+        },
+        "bricks_count": 2
+    }, {
+        "sync_status": "done",
+        "fqdn": "dhcp43-24.lab.eng.blr.redhat.com",
+        "updated_at": "2018-03-12 05:49:45.438375+00:00",
+        "node_id": "9f5b9099-567c-4fd6-844f-a087a2eed9bf",
+        "is_managed": "yes",
+        "hash": "3eda3226fb37eb4e7b1b1d1a7bb1b59e",
+        "tags": ["tendrl/node_9f5b9099-567c-4fd6-844f-a087a2eed9bf", "detected_cluster/1ee0d16e7d9018ed72280fa520ec88e663642857f8b6c0720c53d4a01a59e841", "tendrl/integration/7b05c774-f1e9-4ded-9e0b-7ac989a4f60c", "gluster/server", "tendrl/integration/gluster", "tendrl/node"],
+        "ipv4_addr": "10.70.43.24",
+        "last_sync": "2018-03-12 05:49:39.122861+00:00",
+        "status": "UP",
+        "first_sync_done": "yes",
+        "cluster": {
+            "integration_id": "7b05c774-f1e9-4ded-9e0b-7ac989a4f60c",
+            "hash": "f04246462727fb627a27946da7591607",
+            "sds_version": "4.1dev",
+            "updated_at": "2018-03-05 11:28:05.415297+00:00",
+            "sds_name": "gluster",
+            "cluster_name": "gluster-1ee0d16e7d9018ed72280fa520ec88e663642857f8b6c0720c53d4a01a59e841",
+            "cluster_id": "1ee0d16e7d9018ed72280fa520ec88e663642857f8b6c0720c53d4a01a59e841"
+        },
+        "bricks_count": 2
+    }, {
+        "status": "UP",
+        "hash": "4af3342418cefb60f8f735f43dfff72f",
+        "tags": ["tendrl/integration/gluster", "detected_cluster/1ee0d16e7d9018ed72280fa520ec88e663642857f8b6c0720c53d4a01a59e841", "tendrl/integration/7b05c774-f1e9-4ded-9e0b-7ac989a4f60c", "gluster/server", "tendrl/node_06c11e9a-83c9-4644-9c7c-e73beefef349", "tendrl/node"],
+        "fqdn": "dhcp41-247.lab.eng.blr.redhat.com",
+        "ipv4_addr": "10.70.41.247",
+        "is_managed": "no",
+        "sync_status": "in_progress",
+        "updated_at": "2018-03-12 05:50:25.055907+00:00",
+        "first_sync_done": "yes",
+        "node_id": "06c11e9a-83c9-4644-9c7c-e73beefef349",
+        "last_sync": "2018-03-12 05:49:24.044988+00:00",
+        "cluster": {
+            "integration_id": "7b05c774-f1e9-4ded-9e0b-7ac989a4f60c",
+            "hash": "f04246462727fb627a27946da7591607",
+            "sds_version": "4.1dev",
+            "updated_at": "2018-03-05 11:28:05.415297+00:00",
+            "sds_name": "gluster",
+            "cluster_name": "gluster-1ee0d16e7d9018ed72280fa520ec88e663642857f8b6c0720c53d4a01a59e841",
+            "cluster_id": "1ee0d16e7d9018ed72280fa520ec88e663642857f8b6c0720c53d4a01a59e841"
+        },
+        "bricks_count": 2
+    }]
+}

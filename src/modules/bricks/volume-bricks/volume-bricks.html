@@ -1,0 +1,107 @@
+<div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
+<div ng-if="clusterData !== null" class="tendrl-volume-bricks-view-container container-fluid">
+    <div class="alert alert-warning" ng-show="vm.showExpansionWarn">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+            <span class="pficon pficon-close"></span>
+        </button>
+        <span class="pficon pficon-warning-triangle-o"></span>
+        <label>Brick information may be incomplete while cluster expansion is in progress.</label>
+    </div>
+    <div class="alert alert-danger" ng-show="vm.errorMsg.length">
+        <button type="button" class="close" ng-click="vm.removeErrMsg()" aria-hidden="true">
+            <span class="pficon pficon-close"></span>
+        </button>
+        <span class="pficon pficon-error-circle-o"></span>
+        <label>{{vm.errorMsg}}</label>
+    </div>
+    <div>
+        <h1 class="bold-text">Brick Details</h1>
+    </div>
+    <div class="row toolbar-pf">
+        <div class="col-sm-12">
+            <form class="toolbar-pf-actions">
+                <div class="form-group toolbar-pf-filter" ng-class="{'disable-pointer': vm.subVolumeList.length === 0}">
+                    <pf-filter id="volBrickFilter" config="vm.filterConfig"></pf-filter>
+                </div>
+                <div class="form-group sort-component" ng-class="{'disable-pointer': vm.subVolumeList.length === 0}">
+                    <p>
+                        <span class="collapse-link">
+                            <a ng-click="vm.expandAll()">Expand All</a>
+                        </span>
+                        <span>
+                            <a ng-click="vm.collapseAll()">Collapse All</a>
+                        </span>
+                    </p>
+                </div>
+            </form>
+            <div class="row toolbar-pf-results">
+                <div class="col-sm-12">
+                    <h5 ng-if="vm.subVolumeList.length !== 0">{{vm.totalBrick}} 
+                            <ng-pluralize count="vm.totalBrick" when="{'one': 'Brick',
+                       'other': 'Bricks'}"></ng-pluralize>
+                    </h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /row -->
+    <!-- /container -->
+    <center ng-if="!vm.isDataLoading && vm.subVolumeList.length === 0">
+        <div class="blank-slate-pf">
+            <div class="blank-slate-pf-icon">
+                <i class="pficon pficon-container-node"></i>
+            </div>
+            <h1>No Bricks Detected</h1>
+        </div>
+    </center>
+    <center ng-if="!vm.isDataLoading && vm.filteredBrickList.length === 0 && vm.subVolumeList.length !== 0" class="empty-filter-list">
+        <div class="blank-slate-pf">
+            <div class="message">No results match the filter criteria</div>
+            <div class="suggestion">
+                <div class="title">Suggestions</div>
+                <div>Please try selecting other filter criteria.</div>
+            </div>
+        </div>
+    </center>
+    <div ng-if="vm.isDataLoading" class="spinner spinner-lg"></div>
+    <div class="container-fluid" ng-if="!vm.isDataLoading">
+        <div class="list-group list-view-pf list-view-pf-view" ng-repeat="subVolume in vm.filteredBrickList=(vm.filteredBrickList | orderBy: 'sequenceNumber') track by $index">
+            <div class="list-group-item" ng-class="{'list-view-pf-expand-active': subVolume.isExpanded}">
+                <div class="list-group-item-header" ng-click="vm.expandSubVolume($event, subVolume)">
+                    <div class="list-view-pf-expand">
+                        <span class="fa fa-angle-right" ng-show="!subVolume.isExpanded" ng-click="vm.expandSubVolume($event, subVolume)"></span>
+                        <span class="fa fa-angle-down" ng-show="subVolume.isExpanded" ng-click="vm.expandSubVolume($event, subVolume)"></span>
+                    </div>
+                    <div class="list-view-pf-main-info">
+                        <div class="list-view-pf-body">
+                            <div class="list-view-pf-description">
+                                <div class="list-group-item-heading bold-text sub-volume" uib-tooltip-html="'{{subVolume.subVolumeName}}'" tooltip-placement="auto bottom-left">
+                                    {{subVolume.subVolumeName}}
+                                </div>
+                            </div>
+                            <div class="list-view-pf-additional-info">
+                                <div class="list-view-pf-additional-info-item">
+                                    {{subVolume.bricks.length}}
+                                    <ng-pluralize count="subVolume.bricks.length" when="{'one': 'Brick',
+                       'other': 'Bricks'}"></ng-pluralize>
+                                </div>
+                                <div class="list-view-pf-additional-info-item utilisation-chart">
+                                    <utilisation-chart used="subVolume.utilization.used" total="subVolume.utilization.total | bytes: 2"></utilisation-chart>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-group-item-container container-fluid" ng-show="subVolume.isExpanded">
+                    <div class="close">
+                        <span class="pficon pficon-close" ng-click="vm.closeExpandedView(subVolume)"></span>
+                    </div>
+                    <div class="table-class">
+                        <pf-table-view id="volumeDetailView" config="vm.volumeDetailConfig" columns="vm.volumeDetailColumns" items="subVolume.bricks" action-buttons="vm.actionButtons">
+                        </pf-table-view>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

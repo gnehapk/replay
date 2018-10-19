@@ -1,0 +1,56 @@
+<div class="tendrl-login-view-container">
+    <img src="/images/bg-login.jpg" alt="" class="adjusted">
+    <div class="login-pf-page">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+                    <header class="login-pf-page-header">
+                        <img class="login-pf-brand" src="/images/name.png" alt="tendrl | Unified Storage Manager" />
+                    </header>
+                    <div class="row">
+                        <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+                            <div class="card-pf">
+                                <header class="login-pf-header">
+                                    <select class="selectpicker">
+                                        <option>English</option>
+                                    </select>
+                                    <h1>Log In to Your Account</h1>
+                                </header>
+                                <div class="text-danger validation-msg" ng-if="loginCntrl.errorMsg.length > 0">
+                                    <label ng-bind="loginCntrl.errorMsg"></label>
+                                </div>
+                                <form name="loginCntrl.signInForm" ng-submit="loginCntrl.login()" novalidate>
+                                    <div class="form-group form-group has-feedback" ng-class="{'has-error': (loginCntrl.signInForm.$submitted || loginCntrl.signInForm.username.$dirty) && loginCntrl.signInForm.username.$invalid }">
+                                        <label class="sr-only" for="username">Username</label>
+                                        <input class="form-control" name="username" id="username" tabindex="1" type="text" placeholder="Username" ng-model="loginCntrl.user.username" ng-trim="false" required autofocus>
+                                        <div class="help-block" ng-show="(loginCntrl.signInForm.$submitted || loginCntrl.signInForm.username.$dirty) && loginCntrl.signInForm.username.$invalid">Enter your Username</div>
+                                    </div>
+                                    <div class="form-group" class="form-group has-feedback" ng-class="{ 'has-error': (loginCntrl.signInForm.$submitted || loginCntrl.signInForm.password.$dirty) && loginCntrl.signInForm.password.$invalid }">
+                                        <label class="sr-only" for="password">Password
+                                        </label>
+                                        <input class="form-control" id="password" name="password" type="password" tabindex="2" placeholder="Password" ng-model="loginCntrl.user.password" required>
+                                        <div class="help-block" ng-show="(loginCntrl.signInForm.$submitted || loginCntrl.signInForm.password.$dirty) && loginCntrl.signInForm.password.$invalid">Enter your password
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-block btn-lg">
+                                        <i class="glyphicon glyphicon-refresh glyphicon-refresh-animate hidden" data-ng-class="{'hidden': loginCntrl.formSubmitInProgress !== true }">
+                                        </i>
+                                        <span class="submit-button-text">Log In</span>
+                                    </button>
+                                </form>
+                                <p class="login-pf-signup"></p>
+                            </div>
+                        </div>
+                        <!-- col -->
+                    </div>
+                    <!-- row -->
+                </div>
+                <!-- col -->
+            </div>
+            <!-- row -->
+        </div>
+        <!-- container -->
+    </div>
+    <!-- login-pf-page -->
+    <!-- login-pf-page -->
+</div>

@@ -1,0 +1,93 @@
+<div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
+<div ng-if="clusterData !== null" class="tendrl-task-list-view-container container-fluid">
+    <h1 class="bold-text">Tasks</h1>
+    <div class="row toolbar-pf">
+        <div class="col-sm-12">
+            <form class="toolbar-pf-actions">
+                <div class="form-group toolbar-pf-filter" ng-class="{'disable-pointer': taskCntrl.taskList.length === 0}">
+                    <pf-filter id="clusterFilter" config="taskCntrl.filterConfig"></pf-filter>
+                </div>
+                <div>
+                    <div class="form-group date-selector" ng-class="{'disable-picker': (taskCntrl.taskList.length === 0)}">
+                        From:
+                        <p class="input-group">
+                            <input type="text" class="form-control" uib-datepicker-popup datepicker-options="taskCntrl.fromDateOptions" ng-model="taskCntrl.date.fromDate" is-open="taskCntrl.popupFrom.opened" ng-required="true" close-text="Close" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="taskCntrl.openFromDate()"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </p>
+                    </div>
+                    <div class="form-group remove-right-border date-selector" ng-class="{'disable-picker': (taskCntrl.taskList.length === 0)}">
+                        To:
+                        <p class="input-group">
+                            <input type="text" class="form-control" uib-datepicker-popup datepicker-options="taskCntrl.toDateOptions" ng-model="taskCntrl.date.toDate" is-open="taskCntrl.popupTo.opened" ng-required="true" close-text="Close" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="taskCntrl.openToDate()"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group invalid-msg" ng-if="taskCntrl.invalidToDate">
+                    <span class="error-msg">*The To date must be greater than the From date</span>
+                </div>
+            </form>
+            <div class="row">
+                <div class="col-md-12 horizontal-line"></div>
+            </div>
+            <div class="row toolbar-pf-results extra-margin">
+                <div class="col-sm-2">
+                    <h5 ng-if="taskCntrl.taskList.length !== 0">{{taskCntrl.filterTaskList.length}}
+                        <ng-pluralize count="taskCntrl.filterTaskList.length" when="{'one': 'Task',
+                       'other': 'Tasks'}"></ng-pluralize>
+                    </h5>
+                </div>
+                <div class="col-sm-10 date-link">
+                    <p><a ng-click="taskCntrl.clearDates()" ng-show="taskCntrl.showClearDateAction()">Clear Dates</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <center ng-if="!taskCntrl.isDataLoading && taskCntrl.taskList.length === 0">
+        <div class="blank-slate-pf">
+            <div class="blank-slate-pf-icon">
+                <i class="pficon pficon-cluster"></i>
+            </div>
+            <h1>No Tasks Detected</h1>
+        </div>
+    </center>
+    <center ng-if="!taskCntrl.isDataLoading && taskCntrl.filterTaskList.length === 0 && taskCntrl.taskList.length !== 0" class="empty-filter-list">
+        <div class="blank-slate-pf">
+            <div class="message">No results match the filter criteria</div>
+            <div class="suggestion">
+                <div class="title">Suggestions</div>
+                <div>Please try selecting other filter criteria.</div>
+            </div>
+        </div>
+    </center>
+    <div ng-if="taskCntrl.isDataLoading" class="spinner spinner-lg"></div>
+    <div class="flex-table list-group list-view-pf list-view-pf-view task-list-table" ng-show="!taskCntrl.isDataLoading">
+        <div ng-repeat="task in taskCntrl.filterTaskList = (taskCntrl.filteredTaskList | filter: taskCntrl.filterByCreatedDate| orderBy: ['-createdAt', 'jobId'])">
+            <div class="ft-row list-group-item">
+                <div class="ft-column ft-icon ">
+                    <i ng-class="taskCntrl.statusIcon(task.status)"></i>
+                </div>
+                <div class="ft-column ft-main list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked task-flow ">
+                    <a class="bold-text name" ng-show="task.flow" ng-click="taskCntrl.goToTaskDetail(task.jobId)">{{task.flow}}</a>
+                    <div class="bold-text " ng-if="!task.flow ">NA</div>
+                    <p>Task ID: {{task.jobId || "NA "}} </p>
+                </div>
+                <div class="ft-column status-col">
+                    <div class="bold-text ">Submitted</div>
+                    <div class="pull-left ">{{task.createdAt| date: 'dd MMM yyyy HH:mm:ss'}}</div>
+                </div>
+                <div class="ft-column status-col ">
+                    <div class="bold-text ">{{task.status}}</div>
+                    <div class="pull-left ">{{task.updatedAt | date: 'dd MMM yyyy HH:mm:ss'}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-show="taskCntrl.filteredTaskList.length !== 0">
+        <div class="col-md-12 horizontal-line "></div>
+    </div>
+</div>

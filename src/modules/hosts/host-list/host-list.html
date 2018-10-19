@@ -1,0 +1,104 @@
+<!-- <div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div> -->
+<div class="tendrl-host-list-view-container">
+    <div class="container-fluid">
+        <!-- heading section-->
+        <h1 class="bold-text">Hosts</h1>
+        <!-- Actions section -->
+        <pf-modal-overlay 
+            show-modal="hostCntrl.showExpand" 
+            on-close="hostCntrl.closeModal(dismissCause)" 
+            modal-id="hostCntrl.expandModalId" 
+            modal-title="hostCntrl.expandModalTitle" 
+            modal-body-template="hostCntrl.expandModalTemplate" 
+            action-buttons="hostCntrl.expandModalActionButtons" 
+            modal-body-scope="hostCntrl.expandCluster">
+        </pf-modal-overlay>
+        <div class="row toolbar-pf">
+            <div class="col-md-12">
+                <form class="toolbar-pf-actions">
+                    <div class="form-group toolbar-pf-filter" ng-class="{'disable-pointer': hostCntrl.hostList.length === 0}">
+                        <pf-filter id="hostFilter" config="hostCntrl.filterConfig"></pf-filter>
+                    </div>
+                    <div class="form-group sort-component hide-border" ng-class="{'disable-pointer': hostCntrl.hostList.length === 0}">
+                        <pf-sort id="hostSort" config="hostCntrl.sortConfig"></pf-sort>
+                    </div>
+                    <div class="form-group sort-component hide-border pull-right">
+                        <button ng-hide="hostCntrl.hideExpandBtn" ng-disabled="hostCntrl.expansionInProgress || hostCntrl.cluster.disableExpand" ng-click="hostCntrl.openExpandModal()">Expand Cluster</button>
+                    </div>
+                    <div class="form-group sort-component pull-right" ng-show="!hostCntrl.hideExpandBtn || hostCntrl.expansionInProgress">
+                        {{hostCntrl.cluster.disableExpand ? "Expanding cluster" : hostCntrl.expansionMsg}}
+                        <a ng-click="hostCntrl.goToTaskDetail()" ng-show="hostCntrl.cluster.currentStatus === 'in_progress' || hostCntrl.cluster.currentStatus === 'failed'" class="details-link">View Details</a>
+                    </div>
+                </form>
+                <div class="row toolbar-pf-results">
+                    <div class="col-sm-12">
+                        <h5 ng-if="hostCntrl.hostList.length !== 0"> {{ hostCntrl.filteredHostList.length }}
+                        <ng-pluralize count="hostCntrl.filteredHostList.length" when="{'one': 'Host',
+                       'other': 'Hosts'}"></ng-pluralize>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <center ng-if="!hostCntrl.isDataLoading && (hostCntrl.hostList.length === 0)">
+            <div class="blank-slate-pf">
+                <div class="blank-slate-pf-icon">
+                    <i class="pficon pficon-container-node"></i>
+                </div>
+                <h1>No Hosts Detected</h1>
+            </div>
+        </center>
+        <center ng-if="!hostCntrl.isDataLoading && hostCntrl.filteredHostList.length === 0 && hostCntrl.hostList.length !== 0" class="empty-filter-list">
+            <div class="blank-slate-pf">
+                <div class="message">No results match the filter criteria</div>
+                <div class="suggestion">
+                    <div class="title">Suggestions</div>
+                    <div>Please try selecting other filter criteria.</div>
+                </div>
+            </div>
+        </center>
+        <div ng-show="hostCntrl.isDataLoading" class="spinner spinner-lg"></div>
+        <div class="flex-table list-group list-view-pf list-view-pf-view" ng-show="!hostCntrl.isDataLoading">
+            <div class="ft-row list-group-item " ng-repeat="host in hostCntrl.filteredHostList">
+                <div class="ft-column ft-icon">
+                    <i ng-class="hostCntrl.getClass(host)" uib-tooltip-html="'{{host.status}}'" tooltip-placement="auto bottom-left"></i>
+                </div>
+                <div class="ft-column ft-main host-name bold-text" uib-tooltip-html="'{{host.name}}'" tooltip-placement="auto bottom-left" ng-click="hostCntrl.goToHostDetail(host)"><a ng-class="{'remove-color': host.managed === 'No'}">{{host.name}}</a></div>
+                <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                    <div class="bold-text">Gluster Version</div>
+                    <div class="pull-left">{{host.version}}</div>
+                </div>
+                <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                    <div class="bold-text">Managed</div>
+                    <div class="pull-left">{{host.managed}}</div>
+                </div>
+                <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                    <div class="bold-text">Role</div>
+                    <div class="pull-left">{{host.role}}</div>
+                </div>
+                <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                    <div class="bold-text">Bricks</div>
+                    <div class="pull-left counts">{{host.bricks}}</div>
+                </div>
+                <div class="ft-column list-view-pf-additional-info-item list-view-pf-additional-info-item-stacked">
+                    <div class="bold-text">Alerts</div>
+                    <div class="pull-left counts">{{host.alerts}}</div>
+                </div>
+                <div class="ft-column ft-actions">
+                    <button ng-show="host.role !== 'Tendrl Server' && host.managed === 'Yes'" class="btn btn-default dashboard-btn" ng-click="hostCntrl.redirectToGrafana(host, $event)" tooltip-enable="hostCntrl.flag" ng-mouseover="hostCntrl.addTooltip($event)" uib-tooltip="Dashboard">Dashboard</button>
+                    <div ng-show="host.managed === 'No'">
+                        <div ng-show="hostCntrl.cluster.state === 'expand_pending'" ">Ready to import.</div>
+                        <div ng-show="hostCntrl.cluster.state==='expanding' && hostCntrl.cluster.currentStatus==='in_progress' ">Importing host.</div>
+                        <div ng-show="hostCntrl.cluster.state==='expanding' && hostCntrl.cluster.currentStatus==='failed' ">Import failed.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row " ng-show="hostCntrl.filteredHostList.length !==0 ">
+        <div class="col-md-12 horizontal-line "></div>
+    </div>
+</div>
+</div>

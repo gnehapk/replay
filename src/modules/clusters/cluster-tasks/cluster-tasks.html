@@ -1,0 +1,7 @@
+<div ng-if="clusterData === null && !isAPINotFoundError" class="spinner spinner-lg"></div>
+<div ng-if="clusterData !== null" class="tendrl-cluster-tasks-container container-fluid">
+    <div ng-if="vm.isDataLoading" class="spinner spinner-lg"></div>
+    <div ng-if="!vm.isDataLoading">
+        <tasks cluster-id="vm.clusterId"></tasks>
+    </div>
+</div>
