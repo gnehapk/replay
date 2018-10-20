@@ -2,7 +2,7 @@
     "use strict";
 
     angular
-        .module("TendrlModule")
+        .module("GoReplayModule")
         .factory("AuthManager", AuthManager);
 
     /*@ngInject*/

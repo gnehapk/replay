@@ -36,9 +36,6 @@ var uglify = require("gulp-uglify");
 // Angular.js specific modules
 var ngAnnotate = require("gulp-ng-annotate");
 
-// Testing related modules
-var KarmaServer = require("karma").Server;
-
 var bs = require("browser-sync").create();
 var historyApiFallback = require("connect-history-api-fallback");
 
@@ -89,11 +86,8 @@ del.sync([paths.dest]);
 //Copy js file of the dependent libraries 
 gulp.task("jsLibraries", function() {
     return gulp.src([
-        "node_modules/d3/d3.min.js",
-        "node_modules/c3/c3.min.js",
         "node_modules/jquery/dist/jquery.min.js",
         "node_modules/bootstrap/dist/js/bootstrap.min.js", // For dropdown : temporary
-        "node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.js",
         "node_modules/angular/angular.js",
         "node_modules/angular-ui-bootstrap/dist/ui-bootstrap.min.js",
         "node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js",
@@ -101,19 +95,8 @@ gulp.task("jsLibraries", function() {
         "node_modules/angular-animate/angular-animate.min.js",
         "node_modules/angular-aria/angular-aria.min.js",
         "node_modules/@uirouter/angularjs/release/angular-ui-router.min.js",
-        "node_modules/patternfly/dist/js/patternfly.js",
-        "node_modules/angular-patternfly/node_modules/lodash/lodash.min.js",
-        "node_modules/angular-patternfly/dist/angular-patternfly.js",
-        "node_modules/c3-angular/c3-angular.min.js",
         "node_modules/bootstrap-switch/dist/js/bootstrap-switch.min.js",
-        "node_modules/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js",
-        "node_modules/angular-patternfly/node_modules/angular-drag-and-drop-lists/angular-drag-and-drop-lists.js",
-        "node_modules/datatables/media/js/jquery.dataTables.js",
-        "node_modules/angular-patternfly/node_modules/angularjs-datatables/dist/angular-datatables.js",
-        "node_modules/bootstrap-select/dist/js/bootstrap-select.js",
-        "node_modules/re-tree/re-tree.min.js",
-        "node_modules/ua-device-detector/ua-device-detector.min.js",
-        "node_modules/ng-device-detector/ng-device-detector.min.js"
+        "node_modules/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js"
     ])
     .pipe(uglify())
     .pipe(concat("libraries.js"))
@@ -123,9 +106,8 @@ gulp.task("jsLibraries", function() {
 //Copy css file of the dependent libraries 
 gulp.task("cssLibraries", function() {
     return gulp.src([
-        "node_modules/patternfly/dist/css/patternfly.css",
-        "node_modules/angular-patternfly/styles/angular-patternfly.css",
-        "node_modules/patternfly/dist/css/patternfly-additions.css"
+       "node_modules/bootstrap/dist/css/bootstrap.min.css",
+       "node_modules/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css"
     ])
     .pipe(postCss([autoprefixer({ browsers: browsers })]))
     .pipe(buildMode === "dev" ? noop() : minifyCSS())
@@ -255,26 +237,12 @@ gulp.task("browser-sync", ["common"], function() {
     });
 });
 
-//Run the unit tests
-gulp.task("ut", function(done) {
-    var config = {
-        configFile: __dirname + "/karma.conf.js",
-        singleRun: true
-    };
-    new KarmaServer(config, done).start();
-});
-
 // Common task
 gulp.task("common", ["eslint", "jsLibraries", "cssLibraries", "resource", "copy", "preload", "sass", "jsbundle"]);
 
 // dev mode task
 gulp.task("dev", ["common", "watcher"], function(done) {
     log(colors.bold(colors.yellow("Watchers Established. You can now start coding")));
-});
-
-// production mode task
-gulp.task("release", ["common"], function(done) {
-    runSequence("ut", done);
 });
 
 //default task is common

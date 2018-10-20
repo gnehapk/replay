@@ -1,0 +1,22 @@
+<div class="landing-page-view-container container-fluid">
+    <div>
+        <img src="../images/logo.svg" alt="Rakuten Logo" />
+    </div>
+    <h1 class="text-center">GoReplay Configuration</h1>
+    <div class="pull-right">
+        <div ng-repeat="notification in $root.notifications" class="row">
+        <div class="alert alert-success alert-dismissible pull-right" ng-show="(notification.type === 'success')">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Success!</strong> {{notification.msg}}
+        </div>
+        <div class="alert alert-danger alert-dismissible pull-right" ng-show="(notification.type === 'danger')">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Danger!</strong> {{notification.msg}}
+        </div>
+        </div>
+    </div>
+    <div class="button-panel">
+        <button type="button" class="btn btn-primary btn-lg" ng-click="vm.showStartModal()">Start GoReplay</button>
+        <button type="button" class="btn btn-primary btn-lg" ng-click="vm.showStopModal()">Stop GoReplay</button>
+    </div>
+</div>

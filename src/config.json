@@ -1,10 +1,3 @@
 {
-    "baseUrl": "/api/1.0/",
-    "refreshIntervalTime": 30,
-    "nodeRefreshIntervalTime": 30,
-    "msgRefreshIntervalTime": 5,
-    "statusRefreshIntervalTime": 30,
-    "eventsRefreshIntervalTime": 20,
-    "volumeRefreshInterval": 10,
-    "releaseVersion": "1.6.3"
+    "baseUrl": "/api/1.0/goreplay/"
 }

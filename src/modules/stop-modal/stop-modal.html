@@ -1,0 +1,15 @@
+<div class="replay-stop-modal-container">
+    <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">Stop GoReplay</h3>
+        <button type="button" class="close" ng-click="vm.cancelModal()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        Are you sure you want to stop?
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="vm.cancelModal()">Cancel</button>
+        <button type="button" class="btn btn-primary" ng-click="vm.stopGoReplay()">Stop</button>
+    </div>
+</div>
